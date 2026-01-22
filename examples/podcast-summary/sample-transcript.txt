@@ -1,0 +1,10 @@
+[00:00] Host (Maya): Welcome back to Product Signals. Today we're talking with Priya, the PM at Atlas, about building durable onboarding.
+[00:22] Guest (Priya): We found that most churn happened in week one, so we redesigned the first five minutes to show a fast win.
+[00:45] Host (Maya): Quick sponsor break. This episode is sponsored by LaunchPad CRM, the fastest way to track leads.
+[01:05] Host (Maya): Back to the show. Priya, what was the single most important metric you tracked?
+[01:18] Guest (Priya): Activation rate. We instrumented the "first project created" event and saw a 28% lift after simplifying the flow.
+[01:45] Host (Maya): How did you keep sales and support aligned during the rollout?
+[02:02] Guest (Priya): We ran weekly enablement sessions and shared a living FAQ so support could answer edge cases quickly.
+[02:30] Host (Maya): Any advice for teams with fewer resources?
+[02:40] Guest (Priya): Focus on one moment of value, remove distractions, and communicate it everywhere in the product.
+[03:05] Host (Maya): Great insights. We'll link the playbook in the show notes.

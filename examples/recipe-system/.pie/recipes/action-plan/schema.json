@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal", "steps", "risks"],
+  "properties": {
+    "goal": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["order", "owner", "task", "timeline"],
+        "properties": {
+          "order": { "type": "integer", "minimum": 1 },
+          "owner": { "type": "string" },
+          "task": { "type": "string" },
+          "timeline": { "type": "string" }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

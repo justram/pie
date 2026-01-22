@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "required": [
+    "summary",
+    "sentiment",
+    "issues",
+    "actionItems"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "sentiment": {
+      "enum": [
+        "positive",
+        "neutral",
+        "negative"
+      ],
+      "type": "string"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "area",
+          "detail",
+          "severity"
+        ],
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actionItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "owner",
+          "task"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "quotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

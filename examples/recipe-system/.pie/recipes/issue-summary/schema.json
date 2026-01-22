@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "severity", "impact", "rootCauseHypothesis", "nextSteps"],
+  "properties": {
+    "summary": { "type": "string" },
+    "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "impact": { "type": "string" },
+    "rootCauseHypothesis": { "type": "string" },
+    "nextSteps": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

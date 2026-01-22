@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "sentiment", "issues", "actionItems"],
+  "properties": {
+    "summary": { "type": "string" },
+    "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative"] },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["area", "detail", "severity"],
+        "properties": {
+          "area": { "type": "string" },
+          "detail": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "medium", "high"] }
+        }
+      }
+    },
+    "actionItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["owner", "task"],
+        "properties": {
+          "owner": { "type": "string" },
+          "task": { "type": "string" },
+          "dueDate": { "type": "string" }
+        }
+      }
+    },
+    "quotes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}
