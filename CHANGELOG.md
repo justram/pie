@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+- Published as `@justram/pie` because the unscoped name is already taken on npm.
+
 ### Added
 
 ### Changed

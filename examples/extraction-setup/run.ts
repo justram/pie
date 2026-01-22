@@ -13,7 +13,7 @@ import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { extractSync, getModels, loadExtractionSetup, type Model, type Static, Type } from "pie";
+import { extractSync, getModels, loadExtractionSetup, type Model, type Static, Type } from "@justram/pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

@@ -8,8 +8,8 @@
 //   npx tsx examples/text-extraction/run.ts openai-codex gpt-5.2-codex
 //   npx tsx examples/text-extraction/run.ts google-antigravity gemini-3-flash
 
+import { extractSync, type Static, Type } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { extractSync, type Static, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

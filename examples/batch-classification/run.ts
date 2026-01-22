@@ -11,8 +11,8 @@
 // Optional third arg: concurrency
 //   npx tsx examples/batch-classification/run.ts google-antigravity gemini-3-flash 5
 
+import { extractSync, type Static, Type } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { extractSync, type Static, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

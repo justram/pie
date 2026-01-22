@@ -33,4 +33,4 @@ repo/
 ## Public API
 
 - `src/index.ts` is the curated public surface for the SDK.
-- `pie/cache` is a supported subpath for cache helpers.
+- `@justram/pie/cache` is a supported subpath for cache helpers.

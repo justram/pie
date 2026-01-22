@@ -10,8 +10,8 @@
 //   npx tsx examples/synthetic-qa/run.ts google-antigravity gemini-3-flash
 //   npx tsx examples/synthetic-qa/run.ts openai-codex gpt-5.2-codex
 
+import { type ExtractEvent, extract, type Static, Type } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { type ExtractEvent, extract, type Static, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

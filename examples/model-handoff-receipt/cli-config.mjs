@@ -1,7 +1,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { loadExtractionSetup } from "pie";
+import { loadExtractionSetup } from "@justram/pie";
 
 import { createModelRouter, stripImagesForTextOnlyModel } from "../_shared/model-router.mjs";
 

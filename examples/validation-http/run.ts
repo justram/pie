@@ -9,9 +9,8 @@
 //   npx tsx examples/validation-http/run.ts google-antigravity gemini-3-flash
 
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-
+import { extractSync, type Static, Type } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { extractSync, type Static, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

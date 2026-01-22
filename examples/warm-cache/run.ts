@@ -11,9 +11,8 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-
+import { createFileCache, extractSync, type Static, Type, warmCache } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { createFileCache, extractSync, type Static, Type, warmCache } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

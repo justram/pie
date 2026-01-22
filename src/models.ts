@@ -3,7 +3,7 @@
  *
  * Usage:
  * ```typescript
- * import { getModel, getModels, getProviders } from "pie";
+ * import { getModel, getModels, getProviders } from "@justram/pie";
  *
  * // Get specific model
  * const model = getModel("anthropic", "claude-sonnet-4-5");

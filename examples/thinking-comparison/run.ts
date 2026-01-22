@@ -11,8 +11,8 @@
 //   npx tsx examples/thinking-comparison/run.ts google-antigravity gemini-3-pro-low
 //   npx tsx examples/thinking-comparison/run.ts openai-codex gpt-5.1-codex-mini
 
+import { extract, type Static, type ThinkingLevel, Type } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { extract, type Static, type ThinkingLevel, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

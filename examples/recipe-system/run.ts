@@ -17,7 +17,7 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { extractSync, getModels, loadRecipeSetup, loadRecipes, type Model } from "pie";
+import { extractSync, getModels, loadRecipeSetup, loadRecipes, type Model } from "@justram/pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

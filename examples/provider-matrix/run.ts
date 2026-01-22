@@ -4,8 +4,8 @@
 //   npm run build
 //   npx tsx examples/provider-matrix/run.ts
 
+import { type ExtractResult, extract, Type, type Usage } from "@justram/pie";
 import { getModels, type Model } from "@mariozechner/pi-ai";
-import { type ExtractResult, extract, Type, type Usage } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

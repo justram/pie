@@ -8,8 +8,8 @@
 //   npx tsx examples/retry-feedback/run.ts google-antigravity gemini-3-flash
 //   npx tsx examples/retry-feedback/run.ts openai-codex gpt-5.2
 
+import { type ExtractEvent, type ExtractOptions, extract, type Static, Type } from "@justram/pie";
 import { getModels, type Message, type Model, streamSimple } from "@mariozechner/pi-ai";
-import { type ExtractEvent, type ExtractOptions, extract, type Static, Type } from "pie";
 
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
 

@@ -12,7 +12,7 @@ Structured extraction library and CLI built on `@mariozechner/pi-ai`.
 ## Installation
 
 ```bash
-npm install pie
+npm install @justram/pie
 ```
 
 ## Getting Started
@@ -92,7 +92,7 @@ Edit or delete `~/.pi/agent/auth.json` to remove a provider and force re-login.
 ## SDK Usage
 
 ```ts
-import { extractSync, getModel, Type } from "pie";
+import { extractSync, getModel, Type } from "@justram/pie";
 
 const schema = Type.Object({
 	sentiment: Type.Union([
@@ -117,7 +117,7 @@ console.log(data);
 ### Streaming events
 
 ```ts
-import { extract } from "pie";
+import { extract } from "@justram/pie";
 
 const stream = extract("Example text", {
 	schema,
@@ -137,8 +137,8 @@ const result = await stream.result();
 ### Caching
 
 ```ts
-import { createFileCache, warmCache } from "pie/cache";
-import { getModel } from "pie";
+import { createFileCache, warmCache } from "@justram/pie/cache";
+import { getModel } from "@justram/pie";
 
 const model = getModel("anthropic", "claude-sonnet-4-5");
 const store = createFileCache({ directory: "./cache" });
@@ -216,8 +216,8 @@ pie --recipe support-triage --input ticket.txt
 
 ## Public API Surface
 
-- The package root (`pie`) exposes the SDK surface from `src/index.ts` (extract, models, recipes, cache, errors, types).
-- Cache helpers are also available via the `pie/cache` subpath.
+- The package root (`@justram/pie`) exposes the SDK surface from `src/index.ts` (extract, models, recipes, cache, errors, types).
+- Cache helpers are also available via the `@justram/pie/cache` subpath.
 
 ### CLI entry flow (contributors)
 

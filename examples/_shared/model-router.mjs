@@ -3,7 +3,7 @@ import { streamSimple } from "@mariozechner/pi-ai";
 /**
  * @typedef {import("@mariozechner/pi-ai").Message} Message
  * @typedef {import("@mariozechner/pi-ai").Model} Model
- * @typedef {import("pie").StreamFn} StreamFn
+ * @typedef {import("@justram/pie").StreamFn} StreamFn
  */
 
 /**
