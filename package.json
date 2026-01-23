@@ -1,6 +1,6 @@
 {
 	"name": "@justram/pie",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "Structured extraction library and CLI built on @mariozechner/pi-ai.",
 	"homepage": "https://github.com/justram/pie#readme",
 	"repository": {
