@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- Renamed the publish script to avoid recursive `npm publish` runs.
+
 ### Removed
 
 ## 0.2.2

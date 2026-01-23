@@ -94,7 +94,7 @@ async function main() {
 	run("git", ["tag", `v${version}`]);
 
 	run("npm", ["run", "prepublishOnly"]);
-	run("npm", ["publish", "--access", "public"]);
+	run("npm", ["run", "publish:public"]);
 
 	console.error(`Release ${version} complete.`);
 }
