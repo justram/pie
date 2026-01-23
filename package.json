@@ -1,6 +1,6 @@
 {
 	"name": "@justram/pie",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Structured extraction library and CLI built on @mariozechner/pi-ai.",
 	"license": "MIT",
 	"keywords": [

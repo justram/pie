@@ -10,6 +10,18 @@
 
 ### Fixed
 
+### Removed
+
+## 0.2.2
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Fixed
+
 - Added release automation scripts and documented the release flow.
 
 ### Removed
