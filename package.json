@@ -2,6 +2,14 @@
 	"name": "@justram/pie",
 	"version": "0.2.3",
 	"description": "Structured extraction library and CLI built on @mariozechner/pi-ai.",
+	"homepage": "https://github.com/justram/pie#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/justram/pie.git"
+	},
+	"bugs": {
+		"url": "https://github.com/justram/pie/issues"
+	},
 	"license": "MIT",
 	"keywords": [
 		"llm",
