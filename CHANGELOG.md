@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- Added release automation scripts and documented the release flow.
+
 ### Removed
 
 ## 0.2.1
