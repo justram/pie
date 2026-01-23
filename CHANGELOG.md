@@ -12,6 +12,20 @@
 
 ### Removed
 
+## 0.2.1
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Restored minimal `AGENTS.md` pointing to `docs/` onboarding.
+
+### Removed
+
 ## 0.2.0
 
 ### Breaking Changes
