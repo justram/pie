@@ -12,6 +12,30 @@
 
 ### Removed
 
+## 0.2.0
+
+### Breaking Changes
+
+### Added
+
+- Added `--list-models` plus filtering/paging/JSON flags to inspect available provider models.
+- Added detailed progress output for `scripts/preindex.ts`, with concise tool/file status and periodic counters.
+- Defaulted `scripts/preindex.ts` to incremental updates based on git changes to reduce token usage.
+- Added clear logging for why a full update is selected in `scripts/preindex.ts`.
+- Added token usage summary logging after preindex runs.
+- Added untracked file detection to `scripts/preindex.ts` so incremental updates include new files.
+
+### Changed
+
+- Added `examples/hn-insights` and moved the HN insights script into the examples folder.
+- Expanded onboarding docs with example/script prerequisites and model listing flags.
+
+### Fixed
+
+- Removed TypeScript syntax from `bin/pie` to keep the CLI runnable under Node.
+
+### Removed
+
 ## 0.1.1
 
 ### Breaking Changes

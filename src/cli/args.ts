@@ -18,6 +18,12 @@ export interface CliArgs {
 	recipeConfig?: string;
 	recipeVars?: string;
 	listRecipes?: boolean;
+	listModels?: boolean;
+	listModelsProvider?: string;
+	listModelsFilter?: string;
+	listModelsJson?: boolean;
+	listModelsLimit?: number;
+	listModelsOffset?: number;
 	login?: string;
 	help?: boolean;
 	version?: boolean;
@@ -145,6 +151,54 @@ export function parseArgs(argv: string[]): ParsedArgs {
 			case "--list-recipes":
 				args.listRecipes = true;
 				break;
+			case "--list-models":
+				args.listModels = true;
+				break;
+			case "--models-provider":
+			case "--provider": {
+				const value = nextValue(arg);
+				if (value) {
+					args.listModelsProvider = value;
+					args.listModels = true;
+				}
+				break;
+			}
+			case "--models-filter": {
+				const value = nextValue(arg);
+				if (value) {
+					args.listModelsFilter = value;
+					args.listModels = true;
+				}
+				break;
+			}
+			case "--models-json":
+				args.listModelsJson = true;
+				args.listModels = true;
+				break;
+			case "--models-limit": {
+				const value = nextValue(arg);
+				if (!value) break;
+				const parsed = Number.parseInt(value, 10);
+				if (!Number.isFinite(parsed) || parsed < 0) {
+					errors.push(`Invalid value for ${arg}: ${value}`);
+				} else {
+					args.listModelsLimit = parsed;
+					args.listModels = true;
+				}
+				break;
+			}
+			case "--models-offset": {
+				const value = nextValue(arg);
+				if (!value) break;
+				const parsed = Number.parseInt(value, 10);
+				if (!Number.isFinite(parsed) || parsed < 0) {
+					errors.push(`Invalid value for ${arg}: ${value}`);
+				} else {
+					args.listModelsOffset = parsed;
+					args.listModels = true;
+				}
+				break;
+			}
 			case "--login": {
 				const value = nextValue(arg);
 				if (value) args.login = value;
@@ -196,6 +250,12 @@ Options:
   --recipe-config <file>     Use a recipe config file (default: setup.md)
   --recipe-vars <json>       JSON object for recipe template vars
   --list-recipes             List available recipes and exit
+  --list-models              List available models and exit
+  --models-provider <name>   Filter models by provider (alias: --provider)
+  --models-filter <text>     Filter models by id or name substring
+  --models-limit <n>         Limit models output (for paging)
+  --models-offset <n>        Skip first N models (for paging)
+  --models-json              Output models as JSON
   --login <provider>         OAuth login for a provider (e.g. anthropic)
   -h, --help                 Show help
   -v, --version              Show version

@@ -2,7 +2,7 @@
 
 import { runCli } from "../dist/cli.js";
 
-async function main(): Promise<void> {
+async function main() {
 	const exitCode = await runCli(process.argv.slice(2));
 	process.exitCode = exitCode;
 }

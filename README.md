@@ -28,6 +28,13 @@ cat input.txt | pie \
 	--model anthropic/claude-sonnet-4-5
 ```
 
+List available models (with optional filters):
+
+```bash
+pie --list-models --models-provider google-antigravity
+pie --list-models --models-provider google-antigravity --models-filter gemini
+```
+
 ### Authentication (API keys and OAuth)
 
 `pie` does not require Pi to be installed. It uses the OAuth helpers from `@mariozechner/pi-ai` and stores credentials in `~/.pi/agent/auth.json` (created automatically on first login).

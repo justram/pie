@@ -1,6 +1,10 @@
 # Examples Guide
 
-Each example folder includes a `README.md` with setup, run commands, and expected output. Run examples from the repo root with `npm run build` first.
+Each example folder includes a `README.md` with setup, run commands, and expected output.
+
+## Prerequisites
+- Run examples from the repo root with `npm run build` first.
+- Ensure provider credentials are available (OAuth or API keys). For OAuth providers, run `pie --login <provider>` once. Many examples call the shared helper in `examples/_shared/oauth.ts` and will prompt if credentials are missing.
 
 ## 1) Quick Start — Basic Extraction
 
@@ -44,5 +48,6 @@ Improve latency and reduce cost by reusing results.
 Handle complex data sources and multi-model pipelines.
 
 - [`vision-circle`](./vision-circle): Vision extraction example.
+- [`hn-insights`](./hn-insights): Summarize Hacker News top stories into structured insights.
 - [`model-handoff-receipt`](./model-handoff-receipt): Route between vision and reasoning models with validation.
 - [`resolving-complex-entities`](./resolving-complex-entities): Entity resolution with Graphviz output.

@@ -107,6 +107,51 @@ async function runCliInternal(argv: string[], deps: CliDeps, stdout: Writable, s
 		return 0;
 	}
 
+	if (args.listModels) {
+		const providerFilter = args.listModelsProvider;
+		if (providerFilter && !isKnownProvider(providerFilter)) {
+			throw new CliExitError(`Unknown provider: ${providerFilter}`, 2);
+		}
+		const providers: KnownProvider[] = providerFilter ? [providerFilter as KnownProvider] : getProviders();
+		const filter = args.listModelsFilter?.toLowerCase();
+		const entries = providers
+			.slice()
+			.sort((left, right) => left.localeCompare(right))
+			.flatMap((provider) =>
+				getModels(provider)
+					.slice()
+					.sort((left, right) => left.id.localeCompare(right.id))
+					.filter((model) => {
+						if (!filter) {
+							return true;
+						}
+						const id = model.id.toLowerCase();
+						const name = model.name?.toLowerCase() ?? "";
+						return id.includes(filter) || name.includes(filter);
+					})
+					.map((model) => ({
+						provider,
+						id: model.id,
+						name: model.name ?? null,
+					})),
+			);
+
+		const offset = args.listModelsOffset ?? 0;
+		const limit = args.listModelsLimit;
+		const sliced = limit === undefined ? entries.slice(offset) : entries.slice(offset, offset + limit);
+
+		if (args.listModelsJson) {
+			stdout.write(`${JSON.stringify(sliced, null, 2)}\n`);
+			return 0;
+		}
+
+		for (const entry of sliced) {
+			const name = entry.name ? `\t${entry.name}` : "";
+			stdout.write(`${entry.provider}\t${entry.id}${name}\n`);
+		}
+		return 0;
+	}
+
 	const promptInput = args.promptFile ? readTextFile(args.promptFile, "prompt") : args.prompt;
 	const promptPath = args.promptFile ? resolve(args.promptFile) : undefined;
 	const promptIsSetup = !args.config && !useRecipe && typeof promptInput === "string" && promptInput.startsWith("---");

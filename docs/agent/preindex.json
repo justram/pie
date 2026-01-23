@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-01-23T03:39:18.546Z",
+  "gitHead": "ced0e0e19241634e874a9bbf54595515c6c405ce",
+  "promptHash": "571c62d977a60c9a21546a81a0fbe8dbaeb1d7993e66b29810dce262801c1b25",
+  "reportPath": "docs/agent/reports.md",
+  "watchedPaths": [
+    "src",
+    "docs",
+    "examples",
+    "test",
+    "spec",
+    "README.md",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.base.json",
+    "tsconfig.build.json",
+    "biome.json",
+    "eslint.config.js",
+    "bin",
+    "scripts"
+  ]
+}
