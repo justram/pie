@@ -53,6 +53,20 @@ Run `--login` to authenticate with an OAuth-capable provider. The CLI prints a U
 pie --login openai-codex
 ```
 
+#### SDK login (Node-only)
+
+SDK users can trigger the same OAuth flow programmatically (uses Node prompts and writes to
+`~/.pi/agent/auth.json`):
+
+```ts
+import { loginWithOAuthProvider } from "@justram/pie";
+
+await loginWithOAuthProvider("openai-codex", process.stderr);
+```
+
+If you only need an API key and want auto-refresh, call `resolveApiKeyForProvider(provider, process.stderr)`.
+These helpers are Node-only and are not intended for browser environments.
+
 Supported OAuth providers:
 - `anthropic`
 - `github-copilot`

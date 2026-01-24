@@ -7,6 +7,15 @@ export {
 	type UserMessage,
 } from "@mariozechner/pi-ai";
 export { type Static, type TSchema, Type } from "@sinclair/typebox";
+export {
+	type ApiKeyCredential,
+	type AuthCredential,
+	type AuthMap,
+	getSupportedOAuthProviders,
+	loginWithOAuthProvider,
+	type OAuthCredential,
+	resolveApiKeyForProvider,
+} from "./auth.js";
 export type { CacheEntry, CacheOptions, CacheStore } from "./cache/index.js";
 export { createFileCache, createMemoryCache, warmCache } from "./cache/index.js";
 export {

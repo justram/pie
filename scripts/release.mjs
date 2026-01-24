@@ -19,7 +19,7 @@ function runCapture(command, args) {
 	return (result.stdout ?? "").toString();
 }
 
-function formatUnreleased(): string {
+function formatUnreleased() {
 	return [
 		"## [Unreleased]",
 		"",
@@ -36,7 +36,7 @@ function formatUnreleased(): string {
 	].join("\n");
 }
 
-function hasUnreleasedEntries(body: string): boolean {
+function hasUnreleasedEntries(body) {
 	return body
 		.split("\n")
 		.map((line) => line.trim())
@@ -44,7 +44,7 @@ function hasUnreleasedEntries(body: string): boolean {
 		.some((line) => line.length > 0);
 }
 
-function updateChangelog(contents: string, version: string): string {
+function updateChangelog(contents, version) {
 	if (contents.includes(`## ${version}`)) {
 		throw new Error(`CHANGELOG already contains version ${version}`);
 	}

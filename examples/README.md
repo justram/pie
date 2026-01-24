@@ -14,6 +14,10 @@ Start here to see a minimal schema + prompt flow.
 - [`crm-search`](./crm-search): Turn a user request into structured CRM search queries.
 - [`podcast-summary`](./podcast-summary): Summarize a transcript with timestamps and quotes.
 
+## 1a) SDK Auth
+
+- [`sdk-login`](./sdk-login): Trigger OAuth login from the SDK (Node-only).
+
 ## 2) Core Workflows — Templates, Recipes, and Batch Processing
 
 Build reusable extraction setups and scale across inputs.

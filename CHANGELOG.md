@@ -12,6 +12,23 @@
 
 ### Removed
 
+## 0.2.5
+
+### Breaking Changes
+
+### Added
+
+- Exported OAuth login helpers from the SDK for Node usage.
+- Added the `examples/sdk-login` example to demonstrate SDK-based OAuth login.
+
+### Changed
+
+- Documented SDK OAuth login usage in the README.
+
+### Fixed
+
+### Removed
+
 ## 0.2.3
 
 ### Breaking Changes
