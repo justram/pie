@@ -110,6 +110,10 @@ Auth file entries take precedence over environment variables. To switch from OAu
 
 Edit or delete `~/.pi/agent/auth.json` to remove a provider and force re-login.
 
+## Release
+
+See [docs/release.md](docs/release.md) for the release checklist.
+
 ## SDK Usage
 
 ```ts

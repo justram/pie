@@ -58,16 +58,13 @@
 		"test:watch": "vitest",
 		"test:e2e": "vitest run --config vitest.config.e2e.ts",
 		"clean": "rm -rf dist",
-		"version:patch": "npm version patch --no-git-tag-version && node scripts/sync-versions.js",
-		"version:minor": "npm version minor --no-git-tag-version && node scripts/sync-versions.js",
-		"version:major": "npm version major --no-git-tag-version && node scripts/sync-versions.js",
-		"version:set": "npm version --no-git-tag-version",
 		"prepublishOnly": "npm run clean && npm run build && npm run check",
-		"publish:public": "npm run prepublishOnly && npm publish --access public",
-		"publish:dry": "npm run prepublishOnly && npm publish --access public --dry-run",
+		"publish:public": "npm publish --access public",
+		"publish:dry": "npm publish --access public --dry-run",
 		"release:patch": "node scripts/release.mjs patch",
 		"release:minor": "node scripts/release.mjs minor",
-		"release:major": "node scripts/release.mjs major"
+		"release:push": "git push origin main --tags",
+		"release:github": "node scripts/release-github.mjs"
 	},
 	"dependencies": {
 		"@mariozechner/pi-ai": "^0.49.2",
