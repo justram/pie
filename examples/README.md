@@ -39,6 +39,7 @@ Add guardrails and structured retries for production robustness.
 - [`validation-retry`](./validation-retry): Retry on validation errors.
 - [`retry-feedback`](./retry-feedback): Feed validation errors back into the model.
 - [`streaming-json`](./streaming-json): CLI-style partial JSON streaming demo.
+- [`http-proxy`](./http-proxy): Route API requests through HTTP proxy environment variables.
 
 ## 4) Production Performance — Caching and Warmup
 

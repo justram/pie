@@ -6,7 +6,12 @@
 
 ### Added
 
+- Added http-proxy example showing HTTP proxy environment variable routing.
+- Added unit test covering HTTP proxy environment routing.
+
 ### Changed
+
+- Updated @mariozechner/pi-ai to v0.50.1 (includes HTTP proxy env support).
 
 ### Fixed
 

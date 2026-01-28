@@ -67,7 +67,7 @@
 		"release:github": "node scripts/release-github.mjs"
 	},
 	"dependencies": {
-		"@mariozechner/pi-ai": "^0.49.2",
+		"@mariozechner/pi-ai": "^0.50.1",
 		"@silvia-odwyer/photon-node": "^0.3.4",
 		"@sinclair/typebox": "^0.34.46",
 		"minijinja-js": "^2.14.0"
