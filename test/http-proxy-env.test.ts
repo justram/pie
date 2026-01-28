@@ -1,6 +1,8 @@
+import { spawn } from "node:child_process";
 import { createServer, request, type IncomingMessage, type ServerResponse } from "node:http";
+import { connect } from "node:net";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { completeSimple, type Model } from "@mariozechner/pi-ai";
 
 type ServerHandle = {
 	url: string;
@@ -60,8 +62,8 @@ async function startMockOpenAi(): Promise<ServerHandle> {
 		res.end();
 	});
 
-	await new Promise<void>((resolve) => {
-		server.listen(0, "127.0.0.1", () => resolve());
+	await new Promise<void>((resolveListen) => {
+		server.listen(0, "127.0.0.1", () => resolveListen());
 	});
 
 	const address = server.address();
@@ -71,7 +73,7 @@ async function startMockOpenAi(): Promise<ServerHandle> {
 
 	return {
 		url: `http://127.0.0.1:${address.port}`,
-		close: () => new Promise((resolve) => server.close(() => resolve())),
+		close: () => new Promise((resolveClose) => server.close(() => resolveClose())),
 	};
 }
 
@@ -91,8 +93,44 @@ async function startProxyServer(): Promise<ProxyHandle> {
 		req.pipe(proxyReq);
 	});
 
-	await new Promise<void>((resolve) => {
-		server.listen(0, "127.0.0.1", () => resolve());
+	server.on("connect", (req, clientSocket, head) => {
+		if (!req.url) {
+			clientSocket.write("HTTP/1.1 400 Bad Request\r\n\r\n");
+			clientSocket.end();
+			return;
+		}
+
+		requests.push(`CONNECT ${req.url}`);
+		const [host, portValue] = req.url.split(":");
+		const port = portValue ? Number.parseInt(portValue, 10) : 443;
+
+		if (!host || !Number.isFinite(port)) {
+			clientSocket.write("HTTP/1.1 400 Bad Request\r\n\r\n");
+			clientSocket.end();
+			return;
+		}
+
+		const targetSocket = connect(port, host, () => {
+			clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
+			if (head.length > 0) {
+				targetSocket.write(head);
+			}
+			clientSocket.pipe(targetSocket);
+			targetSocket.pipe(clientSocket);
+		});
+
+		targetSocket.on("error", (error) => {
+			clientSocket.write(`HTTP/1.1 502 Bad Gateway\r\n\r\n${error.message}`);
+			clientSocket.end();
+		});
+
+		clientSocket.on("error", () => {
+			targetSocket.end();
+		});
+	});
+
+	await new Promise<void>((resolveListen) => {
+		server.listen(0, "127.0.0.1", () => resolveListen());
 	});
 
 	const address = server.address();
@@ -103,7 +141,7 @@ async function startProxyServer(): Promise<ProxyHandle> {
 	return {
 		url: `http://127.0.0.1:${address.port}`,
 		requests,
-		close: () => new Promise((resolve) => server.close(() => resolve())),
+		close: () => new Promise((resolveClose) => server.close(() => resolveClose())),
 	};
 }
 
@@ -133,11 +171,15 @@ function createServerRequest(targetUrl: URL, req: IncomingMessage, res: ServerRe
 function withProxyEnv(proxyUrl: string): () => void {
 	const prevHttp = process.env.HTTP_PROXY;
 	const prevHttpLower = process.env.http_proxy;
+	const prevHttps = process.env.HTTPS_PROXY;
+	const prevHttpsLower = process.env.https_proxy;
 	const prevNoProxy = process.env.NO_PROXY;
 	const prevNoProxyLower = process.env.no_proxy;
 
 	process.env.HTTP_PROXY = proxyUrl;
 	process.env.http_proxy = proxyUrl;
+	process.env.HTTPS_PROXY = proxyUrl;
+	process.env.https_proxy = proxyUrl;
 	delete process.env.NO_PROXY;
 	delete process.env.no_proxy;
 
@@ -154,6 +196,18 @@ function withProxyEnv(proxyUrl: string): () => void {
 			process.env.http_proxy = prevHttpLower;
 		}
 
+		if (prevHttps === undefined) {
+			delete process.env.HTTPS_PROXY;
+		} else {
+			process.env.HTTPS_PROXY = prevHttps;
+		}
+
+		if (prevHttpsLower === undefined) {
+			delete process.env.https_proxy;
+		} else {
+			process.env.https_proxy = prevHttpsLower;
+		}
+
 		if (prevNoProxy === undefined) {
 			delete process.env.NO_PROXY;
 		} else {
@@ -168,42 +222,43 @@ function withProxyEnv(proxyUrl: string): () => void {
 	};
 }
 
-describe("http proxy environment", () => {
-	it("routes api requests through HTTP_PROXY", async () => {
-		const mock = await startMockOpenAi();
-		const proxy = await startProxyServer();
-		const restoreEnv = withProxyEnv(proxy.url);
+async function runWorker(mockUrl: string): Promise<number> {
+	const workerPath = resolve(process.cwd(), "test/http-proxy-worker.mjs");
 
-		const model: Model<"openai-completions"> = {
-			id: "proxy-test-model",
-			name: "Proxy Test Model",
-			api: "openai-completions",
-			provider: "proxy-test",
-			baseUrl: `${mock.url}/v1`,
-			reasoning: false,
-			input: ["text"],
-			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-			contextWindow: 8192,
-			maxTokens: 256,
-		};
+	return await new Promise((resolveExit, reject) => {
+		const child = spawn("node", [workerPath], {
+			cwd: process.cwd(),
+			stdio: "inherit",
+			env: {
+				...process.env,
+				MOCK_BASE_URL: `${mockUrl}/v1`,
+			},
+		});
 
-		try {
-			const response = await completeSimple(
-				model,
-				{
-					messages: [{ role: "user", content: "Ping", timestamp: Date.now() }],
-				},
-				{ apiKey: "test-key" },
-			);
-
-			const text = response.content.find((block) => block.type === "text")?.text;
-			expect(text).toBe("Proxy path confirmed.");
-			expect(proxy.requests.length).toBeGreaterThan(0);
-			expect(proxy.requests[0]).toContain(mock.url);
-		} finally {
-			restoreEnv();
-			await proxy.close();
-			await mock.close();
-		}
+		child.on("error", reject);
+		child.on("exit", (code) => resolveExit(code ?? 0));
 	});
+}
+
+describe("http proxy environment", () => {
+	it(
+		"routes api requests through HTTP_PROXY",
+		async () => {
+			const mock = await startMockOpenAi();
+			const proxy = await startProxyServer();
+			const restoreEnv = withProxyEnv(proxy.url);
+
+			try {
+				const exitCode = await runWorker(mock.url);
+				expect(exitCode).toBe(0);
+				expect(proxy.requests.length).toBeGreaterThan(0);
+				expect(proxy.requests[0]).toContain(mock.url.replace("http://", ""));
+			} finally {
+				restoreEnv();
+				await proxy.close();
+				await mock.close();
+			}
+		},
+		15000,
+	);
 });
