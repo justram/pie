@@ -12,6 +12,21 @@
 
 ### Removed
 
+## 0.2.6
+
+### Breaking Changes
+
+### Added
+
+- Added SDK helper utilities for checking updates and formatting update notifications.
+- Added CLI update notification that checks npm registry for newer versions.
+
+### Changed
+
+### Fixed
+
+### Removed
+
 ## 0.2.5
 
 ### Breaking Changes

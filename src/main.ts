@@ -18,6 +18,7 @@ import { extract } from "./extract.js";
 import { getModels, getProviders } from "./models.js";
 import type { Recipe, RecipeWarning } from "./recipes/index.js";
 import { loadRecipeSetup, loadRecipes } from "./recipes/index.js";
+import { checkForUpdates, formatUpdateNotification, getVersion } from "./update.js";
 
 const MODEL_PROVIDER_PREFERENCE = ["anthropic", "openai", "google"] as const;
 
@@ -151,6 +152,8 @@ async function runCliInternal(argv: string[], deps: CliDeps, stdout: Writable, s
 		}
 		return 0;
 	}
+
+	startVersionCheck(stderr);
 
 	const promptInput = args.promptFile ? readTextFile(args.promptFile, "prompt") : args.prompt;
 	const promptPath = args.promptFile ? resolve(args.promptFile) : undefined;
@@ -695,11 +698,13 @@ function writeLine(stream: Writable, message: string): void {
 	stream.write(`${message}\n`);
 }
 
-function getVersion(): string {
-	const pkgPath = new URL("../package.json", import.meta.url);
-	const raw = readFileSync(pkgPath, "utf8");
-	const pkg = JSON.parse(raw) as { version?: string };
-	return pkg.version ?? "0.0.0";
+function startVersionCheck(stderr: Writable): void {
+	void checkForUpdates().then((info) => {
+		if (!info) return;
+		for (const line of formatUpdateNotification(info)) {
+			writeLine(stderr, line);
+		}
+	});
 }
 
 async function readStream(stream: Readable): Promise<string> {

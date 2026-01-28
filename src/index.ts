@@ -47,3 +47,4 @@ export {
 export type { ExtractionSetup, LoadExtractionSetupOptions } from "./setup.js";
 export { loadExtractionSetup } from "./setup.js";
 export type { ExtractOptions, ExtractResult, ExtractStream, ThinkingBudgets, ThinkingLevel, Usage } from "./types.js";
+export { checkForUpdates, formatUpdateNotification, type UpdateInfo } from "./update.js";
