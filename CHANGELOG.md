@@ -1,6 +1,18 @@
 # Changelog
-
 ## [Unreleased]
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+
+## 0.2.7
 
 ### Breaking Changes
 
@@ -16,6 +28,7 @@
 ### Fixed
 
 ### Removed
+
 
 ## 0.2.6
 
