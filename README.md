@@ -230,6 +230,28 @@ cat input.txt | pie -s schema.json -p "Extract" --stream 2>progress.jsonl
 - A configured model credential (see [Authentication](#authentication-api-keys-and-oauth)).
 - A JSON Schema (`--schema`) and prompt (`--prompt`/`--prompt-file`) unless you use `--config` or `--recipe`.
 
+### Schema examples
+
+`--schema` expects a valid JSON Schema. For object outputs, define `type: "object"` and `properties`.
+
+```bash
+# Object with a single required field
+cat input.txt | pie \
+	-s '{"type":"object","properties":{"summary":{"type":"string"}},"required":["summary"],"additionalProperties":false}' \
+	-p "Extract a one-line summary" \
+	--model google-antigravity/gemini-3-flash
+```
+
+```bash
+# Single primitive value (pie wraps/unwraps for providers that require objects)
+cat input.txt | pie \
+	-s '{"type":"string"}' \
+	-p "Summarize in one sentence" \
+	--model google-antigravity/gemini-3-flash
+```
+
+If you prefer a file, pass `-s schema.json` with the same JSON Schema content.
+
 ## Recipes
 
 Recipes live in `~/.pie/recipes` or `./.pie/recipes` and allow reusable setups.
