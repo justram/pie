@@ -70,12 +70,14 @@
 		"@mariozechner/pi-ai": "^0.50.1",
 		"@silvia-odwyer/photon-node": "^0.3.4",
 		"@sinclair/typebox": "^0.34.46",
-		"minijinja-js": "^2.14.0"
+		"minijinja-js": "^2.14.0",
+		"proper-lockfile": "^4.1.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
 		"@j178/prek": "^0.3.0",
 		"@types/node": "^22.10.2",
+		"@types/proper-lockfile": "^4.1.4",
 		"@typescript-eslint/parser": "^8.46.0",
 		"eslint": "^9.36.0",
 		"eslint-plugin-simple-import-sort": "^12.1.1",

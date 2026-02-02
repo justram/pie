@@ -5,6 +5,9 @@
 
 ### Added
 
+- Added OAuth refresh lock handling with disk fallback to avoid token races.
+- Added unit test coverage for OAuth lock fallback behavior.
+
 ### Changed
 
 ### Fixed

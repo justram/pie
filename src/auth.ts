@@ -6,6 +6,7 @@ import type { Writable } from "node:stream";
 import {
 	getEnvApiKey,
 	getOAuthApiKey,
+	getOAuthProvider,
 	getOAuthProviders,
 	loginAnthropic,
 	loginAntigravity,
@@ -15,6 +16,7 @@ import {
 	type OAuthCredentials,
 	type OAuthProvider,
 } from "@mariozechner/pi-ai";
+import lockfile from "proper-lockfile";
 
 const AUTH_PATH = join(homedir(), ".pi", "agent", "auth.json");
 const OAUTH_PROVIDERS = new Set(getOAuthProviders().map((provider) => provider.id));
@@ -85,6 +87,95 @@ function saveAuth(auth: AuthMap): void {
 	chmodSync(AUTH_PATH, 0o600);
 }
 
+function ensureAuthFileExists(): void {
+	const dir = dirname(AUTH_PATH);
+	if (!existsSync(dir)) {
+		mkdirSync(dir, { recursive: true, mode: 0o700 });
+	}
+	if (!existsSync(AUTH_PATH)) {
+		writeFileSync(AUTH_PATH, "{}", "utf-8");
+		chmodSync(AUTH_PATH, 0o600);
+	}
+}
+
+async function refreshOAuthTokenWithLock(
+	provider: OAuthProvider,
+): Promise<{ apiKey: string; newCredentials: OAuthCredentials } | null> {
+	const providerInfo = getOAuthProvider(provider);
+	if (!providerInfo) {
+		return null;
+	}
+
+	ensureAuthFileExists();
+
+	let release: (() => Promise<void>) | undefined;
+
+	try {
+		release = await lockfile.lock(AUTH_PATH, {
+			retries: {
+				retries: 10,
+				factor: 2,
+				minTimeout: 100,
+				maxTimeout: 10000,
+				randomize: true,
+			},
+			stale: 30000,
+		});
+
+		const auth = loadAuth();
+		const entry = auth[provider];
+		if (entry?.type !== "oauth") {
+			return null;
+		}
+
+		if (Date.now() < entry.expires) {
+			return { apiKey: providerInfo.getApiKey(entry), newCredentials: entry };
+		}
+
+		const result = await getOAuthApiKey(provider, oauthCredentials(auth));
+		if (result) {
+			auth[provider] = { type: "oauth", ...result.newCredentials };
+			saveAuth(auth);
+		}
+
+		return result;
+	} catch {
+		const auth = loadAuth();
+		const entry = auth[provider];
+		if (entry?.type === "oauth" && Date.now() < entry.expires) {
+			return { apiKey: providerInfo.getApiKey(entry), newCredentials: entry };
+		}
+		return null;
+	} finally {
+		if (release) {
+			try {
+				await release();
+			} catch {
+				// Ignore unlock errors.
+			}
+		}
+	}
+}
+
+async function resolveOAuthApiKey(provider: OAuthProvider, auth: AuthMap): Promise<string | undefined> {
+	const entry = auth[provider];
+	if (entry?.type !== "oauth") {
+		return undefined;
+	}
+
+	const providerInfo = getOAuthProvider(provider);
+	if (!providerInfo) {
+		return undefined;
+	}
+
+	if (Date.now() < entry.expires) {
+		return providerInfo.getApiKey(entry);
+	}
+
+	const refreshed = await refreshOAuthTokenWithLock(provider);
+	return refreshed?.apiKey;
+}
+
 async function getKeyFromAuth(provider: string, auth: AuthMap): Promise<string | undefined> {
 	const entry = auth[provider];
 	if (!entry) {
@@ -99,22 +190,13 @@ async function getKeyFromAuth(provider: string, auth: AuthMap): Promise<string |
 		return undefined;
 	}
 
-	const result = await getOAuthApiKey(provider, oauthCredentials(auth));
-	if (!result) {
-		return undefined;
-	}
-
-	auth[provider] = { type: "oauth", ...result.newCredentials };
-	saveAuth(auth);
-	return result.apiKey;
+	return await resolveOAuthApiKey(provider, auth);
 }
 
 async function loginAndResolve(provider: OAuthProvider, auth: AuthMap, stderr: Writable): Promise<string> {
-	const result = await getOAuthApiKey(provider, oauthCredentials(auth));
-	if (result) {
-		auth[provider] = { type: "oauth", ...result.newCredentials };
-		saveAuth(auth);
-		return result.apiKey;
+	const existingApiKey = await resolveOAuthApiKey(provider, auth);
+	if (existingApiKey) {
+		return existingApiKey;
 	}
 
 	writeLine(stderr, `[oauth:${provider}] No credentials found in ${AUTH_PATH}. Starting login...`);
