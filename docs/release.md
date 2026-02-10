@@ -24,7 +24,13 @@ npm run release:minor
 npm run release:push
 ```
 
-4. GitHub Actions (`.github/workflows/release.yml`) runs automatically on tag push and will:
+4. Push branch and tag:
+
+```bash
+npm run release:push
+```
+
+5. GitHub Actions (`.github/workflows/release.yml`) runs automatically on tag push and will:
 - publish to npm (requires repository secret `NPM_TOKEN`)
 - publish/update the GitHub release from `CHANGELOG.md`
 
@@ -36,6 +42,7 @@ npm run release:github
 
 ## Notes
 
-- The release scripts handle version bumps, CHANGELOG finalization, commit, tag, and npm publish.
+- The release scripts handle version bumps, CHANGELOG finalization, commit, and tag creation.
+- Publishing is CI-driven on tag push via `.github/workflows/release.yml`.
 - GitHub releases are created or updated from the matching `CHANGELOG.md` section.
 - Major releases are not supported by policy.

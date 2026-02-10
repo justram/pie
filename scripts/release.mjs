@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const RELEASE_TYPES = new Set(["patch", "minor", "major"]);
+const RELEASE_TYPES = new Set(["patch", "minor"]);
 
 function run(command, args, options = {}) {
 	const result = spawnSync(command, args, { stdio: "inherit", ...options });
@@ -69,7 +69,7 @@ function updateChangelog(contents, version) {
 async function main() {
 	const releaseType = process.argv[2];
 	if (!releaseType || !RELEASE_TYPES.has(releaseType)) {
-		throw new Error("Usage: node scripts/release.mjs <patch|minor|major>");
+		throw new Error("Usage: node scripts/release.mjs <patch|minor>");
 	}
 
 	const status = runCapture("git", ["status", "--porcelain"]);
@@ -93,10 +93,8 @@ async function main() {
 	run("git", ["commit", "-m", `Release v${version}`]);
 	run("git", ["tag", `v${version}`]);
 
-	run("npm", ["run", "prepublishOnly"]);
-	run("npm", ["run", "publish:public"]);
-
-	console.error(`Release ${version} complete.`);
+	console.error(`Release ${version} prepared locally.`);
+	console.error("Next step: run `npm run release:push` to push main+tags and let GitHub Actions publish.");
 }
 
 main().catch((error) => {
