@@ -11,7 +11,9 @@
 import { spawn } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { ensureOAuthApiKey } from "../_shared/oauth.js";
+
 import { startProxyServer, withProxyEnv } from "./shared.js";
 
 type SupportedProvider = "openai-codex" | "google-antigravity" | "google-gemini-cli";

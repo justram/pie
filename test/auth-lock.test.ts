@@ -3,15 +3,14 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Writable } from "node:stream";
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import lockfile from "proper-lockfile";
 import {
 	getEnvApiKey,
 	getOAuthApiKey,
 	getOAuthProvider,
 	getOAuthProviders,
 } from "@mariozechner/pi-ai";
+import lockfile from "proper-lockfile";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("proper-lockfile", () => ({
 	default: { lock: vi.fn() },

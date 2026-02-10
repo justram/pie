@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { pathToFileURL } from "node:url";
+
 import { main } from "./main.js";
 
 export { type CliDeps, runCli } from "./cli/index.js";

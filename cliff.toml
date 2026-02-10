@@ -1,0 +1,37 @@
+[changelog]
+body = """
+{% if commits | length == 0 %}
+<!-- no entries -->
+{% else %}
+{% for group, commits in commits | group_by(attribute=\"group\") -%}
+### {{ group }}
+
+{% for commit in commits -%}
+- {{ commit.message | trim }}
+{% endfor %}
+{% if not loop.last %}
+
+{% endif -%}
+{% endfor -%}
+{% endif %}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+filter_commits = true
+split_commits = false
+sort_commits = "newest"
+
+commit_parsers = [
+  { message = "^chore\\(release\\):", skip = true },
+  { message = "^release:", skip = true },
+
+  { message = "^feat(\\(.+\\))?:", group = "Added" },
+  { message = "^fix(\\(.+\\))?:", group = "Fixed" },
+  { message = "^bugfix(\\(.+\\))?:", group = "Fixed" },
+  { message = "^perf(\\(.+\\))?:", group = "Changed" },
+  { message = "^(refactor|docs|build|ci|style|test|chore)(\\(.+\\))?:", group = "Changed" },
+  { message = "^revert", group = "Changed" },
+]

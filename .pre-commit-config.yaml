@@ -1,13 +1,16 @@
 repos:
   - repo: local
     hooks:
-      - id: biome-check
-        name: Biome check (staged)
-        entry: npx biome check --write
-        language: system
-        files: "^(src|examples)/.*\\.(ts|tsx)$"
-      - id: typecheck
-        name: TypeScript typecheck
-        entry: npm run typecheck
+      - id: pie-lint
+        name: pie-lint
+        entry: just lint
         language: system
         pass_filenames: false
+        stages: [pre-commit, pre-push]
+
+      - id: pie-tests
+        name: pie-tests (pre-push)
+        entry: just test all
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

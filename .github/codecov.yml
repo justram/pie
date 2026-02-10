@@ -1,0 +1,22 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  precision: 2
+  round: down
+  range: 0..100
+
+comment:
+  layout: "header, diff, flags, components"
+  require_changes: false
+
+flags:
+  unit:
+    paths:
+      - src/
+      - test/
+  e2e:
+    paths:
+      - test/
+  combined:
+    carryforward: true

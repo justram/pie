@@ -274,9 +274,23 @@ pie --recipe support-triage --input ticket.txt
 ## Development
 
 ```bash
-npm run build
-npm run test
+# One-time setup
+just dev-install
+
+# Verify toolchain + local dependencies
+just bootstrap-check
+
+# Daily workflows
+just check
+just test full
+just coverage
+just fmt
+just deps-check
+just changelog preview
+just hooks install
 ```
+
+`just` is the primary developer interface. `npm run` scripts are kept minimal for build/test/release primitives.
 
 ## License
 

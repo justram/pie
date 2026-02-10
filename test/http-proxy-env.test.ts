@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
-import { createServer, request, type IncomingMessage, type ServerResponse } from "node:http";
+import { createServer, type IncomingMessage, request, type ServerResponse } from "node:http";
 import { connect } from "node:net";
 import { resolve } from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 type ServerHandle = {

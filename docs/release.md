@@ -3,6 +3,13 @@
 ## Patch/minor release workflow
 
 1. Ensure CHANGELOG.md is updated under `[Unreleased]`.
+   - Optional automation (requires `git-cliff`):
+
+```bash
+just changelog preview
+just changelog sync
+```
+
 2. Run the release script:
 
 ```bash
@@ -17,7 +24,11 @@ npm run release:minor
 npm run release:push
 ```
 
-4. Publish the GitHub release from the CHANGELOG notes:
+4. GitHub Actions (`.github/workflows/release.yml`) runs automatically on tag push and will:
+- publish to npm (requires repository secret `NPM_TOKEN`)
+- publish/update the GitHub release from `CHANGELOG.md`
+
+Optional manual GitHub release publish/update:
 
 ```bash
 npm run release:github
