@@ -3,6 +3,8 @@
 
 ### Changed
 
+- raise core coverage gates to 80 with branch-focused tests
+- sync unreleased notes with git-cliff
 - unify just-based workflows and add tooling parity
 - add schema examples to README
 
