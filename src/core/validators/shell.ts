@@ -20,15 +20,33 @@ export async function runShell(
 	child.stdout.on("data", (chunk: Buffer) => stdoutChunks.push(chunk));
 	child.stderr.on("data", (chunk: Buffer) => stderrChunks.push(chunk));
 
-	if (options?.stdin !== undefined) {
-		child.stdin.write(options.stdin);
+	let stdinError: Error | undefined;
+	child.stdin.on("error", (error: NodeJS.ErrnoException) => {
+		if (error.code !== "EPIPE") {
+			stdinError = error;
+		}
+	});
+
+	try {
+		if (options?.stdin !== undefined) {
+			child.stdin.write(options.stdin);
+		}
+		child.stdin.end();
+	} catch (error) {
+		const err = error as NodeJS.ErrnoException;
+		if (err.code !== "EPIPE") {
+			throw error;
+		}
 	}
-	child.stdin.end();
 
 	const code = await new Promise<number>((resolve, reject) => {
 		child.on("error", reject);
 		child.on("close", (value) => resolve(value ?? 0));
 	});
+
+	if (stdinError) {
+		throw stdinError;
+	}
 
 	return {
 		code,
