@@ -1,18 +1,10 @@
 # Changelog
 ## [Unreleased]
 
-### Breaking Changes
-
-### Added
-
-- Added OAuth refresh lock handling with disk fallback to avoid token races.
-- Added unit test coverage for OAuth lock fallback behavior.
-
 ### Changed
 
-### Fixed
-
-### Removed
+- unify just-based workflows and add tooling parity
+- add schema examples to README
 
 
 ## 0.2.7
